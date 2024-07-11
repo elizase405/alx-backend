@@ -50,6 +50,15 @@ class Server:
         return self.__dataset
 
     def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
+        """
+            get content of certain page
+            Args:
+                page (int) page no we currently want
+                page_size (int) no of items on the page
+        Return:
+            A list of lists containing the content of the given page
+        """
+
         assert isinstance(page, int) and page > 0, 'Integer must be > 0'
         assert isinstance(page_size, int) and page_size > 0, "be > 0"
         # returns the start and end index of the content in a page
