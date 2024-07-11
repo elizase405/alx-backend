@@ -1,8 +1,4 @@
 #!/usr/bin/env python3
-import csv
-import math
-from typing import List
-
 """
     A module with 1 function and 1 class:
         index_range(3, 15) - (30, 45)
@@ -10,6 +6,10 @@ from typing import List
             containing the content from index 29
             to 44(list are 0 indexed so we start at 29 not 30)
 """
+
+import csv
+import math
+from typing import List
 
 
 def index_range(page, page_size):
