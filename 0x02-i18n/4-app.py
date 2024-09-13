@@ -19,14 +19,22 @@ app.config.from_object(Config)
 
 @babel.localeselector
 def get_locale():
-    """returns the languages that best matches our application"""
+    """ detect if the incoming request contains locale argument and
+        ifs value is a supported locale, return it.
+        If not or if the parameter is not present,
+        resort to the previous default behavior.
+    """
+    locale = request.args.get('locale')
+
+    if locale in app.config['LANGUAGES']:
+        return locale
     return request.accept_languages.best_match(app.config['LANGUAGES'])
 
 
 @app.route('/')
 def hello_world():
     """renders template"""
-    return render_template('3-index.html')
+    return render_template('4-index.html')
 
 
 if __name__ == '__main__':
