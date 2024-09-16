@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """flask app with parameterized template"""
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, g
 from flask_babel import Babel
 
 
@@ -25,6 +25,26 @@ babel = Babel(app)
 app.config.from_object(Config)
 
 
+def get_user():
+    """ returns a user dictionary or
+        None if ID not found or login_as not passed
+    """
+    user_id = request.args.get("login_as")
+    if user_id:
+        user_id = int(user_id)
+        if user_id in users:
+            return users.get(user_id)
+    return None
+
+
+@app.before_request
+def before_request():
+    """ use get_user to find a user if any,
+        and set it as a global on flask.g.user
+    """
+    g.user = get_user()
+
+
 @babel.localeselector
 def get_locale():
     """ detect if the incoming request contains locale argument and
@@ -37,16 +57,6 @@ def get_locale():
     if locale in app.config['LANGUAGES']:
         return locale
     return request.accept_languages.best_match(app.config['LANGUAGES'])
-
-
-def get_user():
-    """ returns a user dictionary if ID not found or login_as not passed """
-    login_as = request.args.get('login_as')
-
-    if ID:
-        return users[ID]
-    else if login_as:
-        return users[login_as]
 
 
 @app.route('/')
